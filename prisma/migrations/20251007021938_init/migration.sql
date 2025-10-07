@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Status" AS ENUM ('PENDING', 'DONE');
+CREATE TYPE "Status" AS ENUM ('pending', 'done');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -16,7 +16,7 @@ CREATE TABLE "Task" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "status" "Status" NOT NULL DEFAULT 'PENDING',
+    "status" "Status" NOT NULL DEFAULT 'pending',
     "userId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
