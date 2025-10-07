@@ -42,7 +42,6 @@ copy .env.example .env
 
 ```bash
 npx prisma migrate dev      # Cria as tabelas no banco
-npx prisma db seed          # Insere dados nas tabelas (se houver seed)
 npx prisma migrate reset    # Reseta todas as migrations
 ```
 
@@ -73,18 +72,15 @@ npm run dev                 # Inicia o servidor localmente
 * zod
 
 
-## 📁 Estrutura do Projeto
+## 📁 Estrutura do Projeto <a id="structure"></a>
 
 ```
 api_prisma_test/
 ├── src/
 │   |── config/
 │   |── controllers/
-│   │── models/
 │   │── routes/ 
 │   │── schemas/ 
-│   │── types/
-│   │── useCases/
 │   └── index.ts
 └── README.md
 ```

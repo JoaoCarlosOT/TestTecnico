@@ -1,23 +1,29 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/database";
+import { taskSchema, taskUpdateSchema } from "../schemas/taskSchema";
 
 export const createTask = async (req: Request, res: Response) => {
   try {
-    const { title, description, status, userId } = req.body;
+    const parsedData = taskSchema.parse(req.body);
 
     const task = await prisma.task.create({
       data: {
-        title,
-        description,
-        status,
-        user: {
-          connect: { id: Number(userId) }, 
-        },
+        title: parsedData.title,
+        description: parsedData.description,
+        status: parsedData.status,
+        user: { connect: { id: parsedData.userId } },
       },
     });
 
     res.status(201).json(task);
   } catch (error: any) {
+    if (error.name === "Error") {
+      return res.status(400).json({
+        message: "Erro de validação",
+        errors: error.errors,
+      });
+    }
+
     res.status(500).json({ message: "Erro ao criar tarefa", error: error.message });
   }
 };
@@ -52,20 +58,29 @@ export const getTaskById = async (req: Request, res: Response) => {
 export const updateTask = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { title, description, status, userId } = req.body;
+    const parsedData = taskUpdateSchema.parse(req.body);
 
     const task = await prisma.task.update({
       where: { id: Number(id) },
       data: {
-        title,
-        description,
-        status,
-        user: userId ? { connect: { id: Number(userId) } } : undefined,
+        title: parsedData.title,
+        description: parsedData.description,
+        status: parsedData.status,
+        user: parsedData.userId
+          ? { connect: { id: parsedData.userId } }
+          : undefined,
       },
     });
 
     res.json({ message: "Tarefa atualizada com sucesso", task });
   } catch (error: any) {
+    if (error.name === "Error") {
+      return res.status(400).json({
+        message: "Erro de validação",
+        errors: error.errors,
+      });
+    }
+
     res.status(500).json({ message: "Erro ao atualizar tarefa", error: error.message });
   }
 };

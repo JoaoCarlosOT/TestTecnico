@@ -1,14 +1,24 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/database";
+import { userSchema, userUpdateSchema } from "../schemas/userSchema";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const { name, email } = req.body;
+    const parsedData = userSchema.parse(req.body);
+
     const user = await prisma.user.create({
-      data: { name, email },
+      data: parsedData,
     });
+
     res.status(201).json(user);
   } catch (error: any) {
+    if (error.name === "Error") {
+      return res.status(400).json({
+        message: "Erro de validação",
+        errors: error.errors,
+      });
+    }
+
     res.status(500).json({ message: "Erro ao criar usuário", error: error.message });
   }
 };
@@ -38,15 +48,22 @@ export const getUserById = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, email } = req.body;
+    const parsedData = userUpdateSchema.parse(req.body); 
 
     const user = await prisma.user.update({
       where: { id: Number(id) },
-      data: { name, email },
+      data: parsedData,
     });
 
     res.json({ message: "Usuário atualizado com sucesso", user });
   } catch (error: any) {
+    if (error.name === "Error") {
+      return res.status(400).json({
+        message: "Erro de validação",
+        errors: error.errors,
+      });
+    }
+
     res.status(500).json({ message: "Erro ao atualizar usuário", error: error.message });
   }
 };
