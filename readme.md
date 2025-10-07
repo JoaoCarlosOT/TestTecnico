@@ -11,7 +11,7 @@
 
 
 <p align="center">     
-  <a href="#">📱 Acesse o projeto hospedado na render.</a> 
+  <a href="https://testtecnico.onrender.com/">📱 Acesse o projeto hospedado na Render e teste via postman ou insomnia</a>
 </p>
 
 
@@ -49,13 +49,14 @@ npx prisma migrate reset    # Reseta todas as migrations
 
 ```bash
 cd api_prisma_test
-cp .env.example .env
+copy .env.example .env
 npm install
 npx prisma migrate dev      # Executa migrations
 npm run dev                 # Inicia o servidor localmente
 ```
 
 > Isso iniciará o PostgreSQL e deixará o banco acessível na porta `5432`.
+> Certifique-se de ter um PostgreSQL rodando na porta 5432 ou use Docker.
 
 ---
 
@@ -68,7 +69,7 @@ npm run dev                 # Inicia o servidor localmente
 * PostgreSQL
 * Prisma
 * MVC
-* API Restfull
+* API RESTful
 * zod
 
 
@@ -77,12 +78,40 @@ npm run dev                 # Inicia o servidor localmente
 ```
 api_prisma_test/
 ├── src/
-│   |── config/
-│   |── controllers/
-│   │── routes/ 
-│   │── schemas/ 
+│   ├── config/
+│   ├── controllers/
+│   ├── routes/ 
+│   ├── schemas/ 
 │   └── index.ts
 └── README.md
+```
+
+## 🧪 Testando a API
+
+Você pode testar a API tanto no **deploy** quanto localmente:
+
+- **Deploy:** [https://testtecnico.onrender.com/user](https://testtecnico.onrender.com/user)  
+- **Local:** [http://localhost:3000/user](http://localhost:3000/user)  
+
+---
+
+### Criar um usuário (POST /user)
+
+**URL:** `/user`  
+**Método:** `POST`  
+**Headers:**  
+
+```http
+Content-Type: application/json
+```
+
+### Body de exemplo:
+
+```bash
+{
+  "name": "Joao",
+  "email": "joao@gmail.com"
+}
 ```
 
 
